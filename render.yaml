@@ -1,17 +1,16 @@
 databases:
   - name: demo-postgres
-    plan: free # thử nghiệm; Prod thì chọn plan trả phí
+    plan: free
 
 services:
-  # Backend Web Service
+  # BACKEND (Express)
   - type: web
     name: simple-backend
-    env: node
-    plan: free # Prod nên chọn starter/pro để không sleep
+    runtime: node # thay vì env: node
+    plan: free
     rootDir: server
     buildCommand: "npm ci"
     startCommand: "node server.js"
-    autoDeploy: true
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -20,15 +19,15 @@ services:
       - key: ALLOW_ORIGIN
         value: https://simple-frontend.onrender.com
 
-  # Frontend Static Site
-  - type: static
+  # FRONTEND (Static Site)
+  - type: web
     name: simple-frontend
-    rootDir: client
-    # Nếu dùng React/Vite: thêm build & publish path
+    runtime: static # đây là static site
+    # Nếu chỉ là HTML/JS thuần trong thư mục client/, KHÔNG build:
+    staticPublishPath: ./client
+    # Nếu dùng build tool (Vite/React): bật 2 dòng dưới,
     # buildCommand: "npm ci && npm run build"
-    # publishPath: "client/dist"
-    # Với HTML/JS thuần trong client/, không cần build:
-    publishPath: "client"
+    # staticPublishPath: ./client/dist
     envVars:
       - key: API_BASE
         value: https://simple-backend.onrender.com/api

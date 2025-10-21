@@ -1,5 +1,5 @@
 databases:
-  - name: demo-postgres
+  - name: postgres
     plan: free
 
 services:

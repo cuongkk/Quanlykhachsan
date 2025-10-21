@@ -6,28 +6,35 @@ services:
   # BACKEND (Express)
   - type: web
     name: simple-backend
-    runtime: node # thay vì env: node
+    runtime: node
     plan: free
     rootDir: server
-    buildCommand: "npm ci"
+    buildCommand: "npm ci || npm install"
     startCommand: "node server.js"
+    autoDeploy: true
     envVars:
+      - key: NODE_VERSION
+        value: 18
       - key: DATABASE_URL
         fromDatabase:
           name: demo-postgres
-          property: connectionString
+          # nếu backend và DB cùng Render, ưu tiên đường nội bộ:
+          property: internalConnectionString # (nếu chưa có, dùng connectionString)
       - key: ALLOW_ORIGIN
-        value: https://simple-frontend.onrender.com
+        fromService:
+          name: simple-frontend
+          type: web
+          property: url
 
-  # FRONTEND (Static Site)
+    # FRONTEND (Static Site)
   - type: web
     name: simple-frontend
-    runtime: static # đây là static site
-    # Nếu chỉ là HTML/JS thuần trong thư mục client/, KHÔNG build:
-    staticPublishPath: ./client
-    # Nếu dùng build tool (Vite/React): bật 2 dòng dưới,
-    # buildCommand: "npm ci && npm run build"
-    # staticPublishPath: ./client/dist
+    runtime: static
+    rootDir: client
+    staticPublishPath: .
     envVars:
       - key: API_BASE
-        value: https://simple-backend.onrender.com/api
+        fromService:
+          name: simple-backend
+          type: web
+          property: url

@@ -1,4 +1,4 @@
-const API_BASE = window.API_BASE || "https://simple-backend-d8e5.onrender.com/api";
+const API_BASE = window.API_BASE || "https://backend-3xl4.onrender.com/api";
 
 async function load() {
   const out = document.getElementById("out");

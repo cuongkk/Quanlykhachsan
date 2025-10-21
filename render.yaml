@@ -8,7 +8,7 @@ services:
     name: simple-backend
     runtime: node
     plan: free
-    rootDir: server
+    rootDir: server # backend nằm trong thư mục server/
     buildCommand: "npm ci || npm install"
     startCommand: "node server.js"
     autoDeploy: true
@@ -19,20 +19,15 @@ services:
         fromDatabase:
           name: demo-postgres
           property: connectionString
-      # ⚠️ Ở bước đầu deploy bạn CHƯA BIẾT URL frontend,
-      # nên tạm để CORS mở toàn bộ, sau khi deploy xong thì update lại:
       - key: ALLOW_ORIGIN
-        value: "*"
+        value: https://simple-frontend.onrender.com
 
   # FRONTEND (Static Site)
   - type: web
     name: simple-frontend
     runtime: static
-    rootDir: client
-    staticPublishPath: .
+    rootDir: client # chỉ vào thư mục client/
+    staticPublishPath: . # publish ngay thư mục đó
     envVars:
-      # ⚠️ Ở lần đầu, bạn chưa biết URL backend => tạm để giá trị rỗng.
-      # Sau khi Render tạo URL backend (vd: https://simple-backend.onrender.com),
-      # bạn quay lại và sửa giá trị này trong Render dashboard.
       - key: API_BASE
-        value: ""
+        value: https://simple-backend-d8e5.onrender.com/api

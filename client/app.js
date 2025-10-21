@@ -1,4 +1,4 @@
-const API_BASE = window.API_BASE || "http://localhost:3000/api";
+const API_BASE = window.API_BASE || "https://simple-backend-d8e5.onrender.com/api";
 
 async function load() {
   const out = document.getElementById("out");

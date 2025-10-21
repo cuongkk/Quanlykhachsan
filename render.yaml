@@ -5,7 +5,7 @@ databases:
 services:
   # BACKEND (Express)
   - type: web
-    name: simple-backend
+    name: backend
     runtime: node
     plan: free
     rootDir: server # backend nằm trong thư mục server/
@@ -20,11 +20,11 @@ services:
           name: demo-postgres
           property: connectionString
       - key: ALLOW_ORIGIN
-        value: https://simple-frontend-hlo6.onrender.com
+        value: https://frontend-hlo6.onrender.com
 
   # FRONTEND (Static Site)
   - type: web
-    name: simple-frontend
+    name: frontend
     runtime: static
     rootDir: client
     staticPublishPath: .

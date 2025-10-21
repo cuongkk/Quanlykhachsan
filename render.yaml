@@ -26,8 +26,10 @@ services:
   - type: web
     name: simple-frontend
     runtime: static
-    rootDir: client # chỉ vào thư mục client/
-    staticPublishPath: . # publish ngay thư mục đó
+    rootDir: client
+    # Tạo file config.js tại build-time, ghi giá trị từ env API_BASE
+    buildCommand: bash -lc 'echo "window.API_BASE='\''${API_BASE}'\'';" > config.js'
+    staticPublishPath: .
     envVars:
       - key: API_BASE
         value: https://simple-backend-d8e5.onrender.com/api

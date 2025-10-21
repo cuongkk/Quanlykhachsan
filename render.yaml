@@ -16,11 +16,10 @@ services:
       - key: NODE_VERSION
         value: 18
       - key: DATABASE_URL
+        value: "https://frontend.onrender.com/api"
         fromDatabase:
           name: postgre
           property: connectionString
-      - key: ALLOW_ORIGIN
-        value: https://frontend-hlo6.onrender.com
 
   # FRONTEND (Static Site)
   - type: web
@@ -28,3 +27,6 @@ services:
     runtime: static
     rootDir: client
     staticPublishPath: .
+    envVars:
+      - key: API_BASE
+        value: "https://backend.onrender.com/api"

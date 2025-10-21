@@ -18,23 +18,21 @@ services:
       - key: DATABASE_URL
         fromDatabase:
           name: demo-postgres
-          # nếu backend và DB cùng Render, ưu tiên đường nội bộ:
-          property: internalConnectionString # (nếu chưa có, dùng connectionString)
+          property: connectionString
+      # ⚠️ Ở bước đầu deploy bạn CHƯA BIẾT URL frontend,
+      # nên tạm để CORS mở toàn bộ, sau khi deploy xong thì update lại:
       - key: ALLOW_ORIGIN
-        fromService:
-          name: simple-frontend
-          type: web
-          property: url
+        value: "*"
 
-    # FRONTEND (Static Site)
+  # FRONTEND (Static Site)
   - type: web
     name: simple-frontend
     runtime: static
     rootDir: client
     staticPublishPath: .
     envVars:
+      # ⚠️ Ở lần đầu, bạn chưa biết URL backend => tạm để giá trị rỗng.
+      # Sau khi Render tạo URL backend (vd: https://simple-backend.onrender.com),
+      # bạn quay lại và sửa giá trị này trong Render dashboard.
       - key: API_BASE
-        fromService:
-          name: simple-backend
-          type: web
-          property: url
+        value: ""

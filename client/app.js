@@ -1,5 +1,5 @@
 const API_BASE = window.API_BASE || "https://backend-3xl4.onrender.com/api";
-
+console.log("API_BASE =", window.API_BASE, "->", API_BASE);
 async function load() {
   const out = document.getElementById("out");
   out.textContent = "Đang tải...";
